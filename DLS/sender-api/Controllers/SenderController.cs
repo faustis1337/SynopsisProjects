@@ -12,17 +12,28 @@ public class SenderController : Controller
 {
     
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] Messages messages)
+    public async Task<IActionResult> Post([FromBody] MessageEntity messageEntity)
     {
-        RestClient serviceClient = new("url goes here");
-        RestRequest request = new("/Post");
-        request.AddBody(new
+        var apiUrl = "http://host.docker.internal:8001";
+        RestClient client = new RestClient(apiUrl);
+        RestRequest request = new RestRequest("/api/messages",Method.Post);
+
+        request.AddJsonBody(new
         {
-            name = "Message via restsharp"
+            id = messageEntity.Id,
+            message = messageEntity.Message
         });
-        request.AddParameter("Id", messages.Id);
-        request.AddParameter("Message", messages.Message);
-        //var response = await serviceClient.ExecuteAsync(request);
+
+        var response = await client.ExecutePostAsync(request);
+
+        if (response.IsSuccessful)
+        {
+            return Ok(response.Content);
+        }
+        else
+        {
+            Console.WriteLine("Error: " + response.StatusCode);
+        }
         
         return Ok();
     }

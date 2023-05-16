@@ -27,9 +27,6 @@ public class MessagesController {
         if (id != null && message != null) {
             messageRepository.add(request);
         }
-        for(MessageRequest messageRequest:messageRepository.getAllMessages()){
-            System.out.println(messageRequest.getId());
-        }
         return request;
     }
 
