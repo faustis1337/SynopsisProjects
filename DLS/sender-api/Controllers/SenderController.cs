@@ -6,6 +6,8 @@ using SenderAPI.Models;
 
 namespace SenderAPI.Controllers;
 
+[ApiController]
+[Route("[controller]")]
 public class SenderController : Controller
 {
     
