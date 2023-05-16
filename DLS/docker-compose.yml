@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  senderapi:
+    build:
+      context: .
+      dockerfile: sender-api/Dockerfile
+    ports:
+      - 8001:80
