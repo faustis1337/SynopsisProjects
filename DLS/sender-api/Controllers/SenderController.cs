@@ -26,15 +26,11 @@ public class SenderController : Controller
 
         var response = await client.ExecutePostAsync(request);
 
-        if (response.IsSuccessful)
+        if (!response.IsSuccessful)
         {
-            return Ok(response.Content);
-        }
-        else
-        {
-            Console.WriteLine("Error: " + response.StatusCode);
+            return BadRequest(response.StatusCode);
         }
         
-        return Ok();
+        return Ok(response.Content);
     }
 }
