@@ -1,9 +1,15 @@
 version: '3.8'
 
 services:
-  senderapi:
+  receiverapi:
     build:
       context: .
-      dockerfile: sender-api/Dockerfile
+      dockerfile: receiver-api/Dockerfile
     ports:
-      - 8001:80
+      - 8001:8080
+#  senderapi:
+#    build:
+#      context: .
+#      dockerfile: sender-api/Dockerfile
+#    ports:
+#      - 8002:80
