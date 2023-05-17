@@ -4,7 +4,9 @@ using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using SenderAPI.Monitoring;
+using OpenTelemetry.Exporter.Jaeger; 
 
+    
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -13,21 +15,27 @@ builder.Services.AddSwaggerGen();
 
 
 builder.Services.AddOpenTelemetry()
-    //tracing set up
+    // Configure tracing
     .WithTracing(tracerProviderBuilder => 
         tracerProviderBuilder
             .AddSource(DiagnosticsConfig.ActivitySource.Name)
             .ConfigureResource(resource => resource
                 .AddService(DiagnosticsConfig.ServiceName))
             .AddAspNetCoreInstrumentation()
-            .AddConsoleExporter())
-    //metric set up
+            .AddHttpClientInstrumentation()
+            //.AddJaegerExporter()
+            .AddOtlpExporter()
+            ) 
+    // Configure metrics
     .WithMetrics(metricsProviderBuilder =>
         metricsProviderBuilder
             .ConfigureResource(resource => resource
                 .AddService(DiagnosticsConfig.ServiceName))
             .AddAspNetCoreInstrumentation()
-            .AddConsoleExporter());
+            .AddHttpClientInstrumentation()
+            .AddOtlpExporter()
+            //.AddJaegerExporter() //cant add JaegerExporter to the other metrics
+    );
 
 // Configure logging
 builder.Logging.AddOpenTelemetry(options =>
@@ -35,7 +43,9 @@ builder.Logging.AddOpenTelemetry(options =>
         options.IncludeFormattedMessage = true;
         options.SetResourceBuilder(ResourceBuilder.CreateDefault()
             .AddService(DiagnosticsConfig.ServiceName));
-        options.AddConsoleExporter();
+        options.AddConsoleExporter()
+            //.AddJaegerExporter()
+            ;
     });
 
 
