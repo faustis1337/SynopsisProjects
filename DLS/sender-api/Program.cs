@@ -3,6 +3,7 @@ using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using SenderAPI.Monitoring;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,37 +11,30 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddOpenTelemetryTracing(b => b
-    .SetResourceBuilder(ResourceBuilder.CreateDefault()
-        .AddService("SenderAPI"))
-    .AddAspNetCoreInstrumentation()
-    .AddHttpClientInstrumentation()
-    .AddMyConsoleExporter()
-);
 
-// Add support for tracing
-builder.Services.AddOpenTelemetryTracing(b => b
-    .SetResourceBuilder(ResourceBuilder
-        .CreateDefault().AddService("SenderAPI"))
-    .AddAspNetCoreInstrumentation()
-    .AddHttpClientInstrumentation()
-    .AddConsoleExporter()
-);
-
-// Add support for metrics
-builder.Services.AddOpenTelemetryMetrics(b => b
-    .SetResourceBuilder(ResourceBuilder
-        .CreateDefault().AddService("SenderAPI"))
-    .AddAspNetCoreInstrumentation()
-    .AddConsoleExporter()
-);
+builder.Services.AddOpenTelemetry()
+    //tracing set up
+    .WithTracing(tracerProviderBuilder => 
+        tracerProviderBuilder
+            .AddSource(DiagnosticsConfig.ActivitySource.Name)
+            .ConfigureResource(resource => resource
+                .AddService(DiagnosticsConfig.ServiceName))
+            .AddAspNetCoreInstrumentation()
+            .AddConsoleExporter())
+    //metric set up
+    .WithMetrics(metricsProviderBuilder =>
+        metricsProviderBuilder
+            .ConfigureResource(resource => resource
+                .AddService(DiagnosticsConfig.ServiceName))
+            .AddAspNetCoreInstrumentation()
+            .AddConsoleExporter());
 
 // Configure logging
 builder.Logging.AddOpenTelemetry(options =>
     {
         options.IncludeFormattedMessage = true;
         options.SetResourceBuilder(ResourceBuilder.CreateDefault()
-            .AddService("SenderAPI"));
+            .AddService(DiagnosticsConfig.ServiceName));
         options.AddConsoleExporter();
     });
 
