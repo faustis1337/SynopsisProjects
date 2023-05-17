@@ -1,8 +1,8 @@
-﻿using System.Text.Json;
-using System.Text.Json.Nodes;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using RestSharp;
 using SenderAPI.Models;
+using SenderAPI.Monitoring;
 
 namespace SenderAPI.Controllers;
 
@@ -10,10 +10,13 @@ namespace SenderAPI.Controllers;
 [Route("[controller]")]
 public class SenderController : Controller
 {
+    private static readonly ActivitySource MyActivitySource = new(DiagnosticsConfig.ServiceName);
     
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] MessageEntity messageEntity)
     {
+        using var myActivity = MyActivitySource.StartActivity("Sending Message", ActivityKind.Client);
+        
         var apiUrl = "http://host.docker.internal:8001";
         RestClient client = new RestClient(apiUrl);
         RestRequest request = new RestRequest("/api/messages",Method.Post);
