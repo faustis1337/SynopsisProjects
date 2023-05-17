@@ -11,6 +11,12 @@
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.4" />
         <PackageReference Include="RestSharp" Version="110.2.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+        <PackageReference Include="OpenTelemetry" Version="1.4.0" />
+        <PackageReference Include="OpenTelemetry.Api" Version="1.4.0" />
+        <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.4.0" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.4.0" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.4.0" />
+        <PackageReference Include="OpenTelemetry.Exporter.Jaeger" Version="1.4.0" />
     </ItemGroup>
 
 </Project>
