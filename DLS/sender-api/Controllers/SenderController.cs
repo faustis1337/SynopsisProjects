@@ -10,12 +10,12 @@ namespace SenderAPI.Controllers;
 [Route("[controller]")]
 public class SenderController : Controller
 {
-    private static readonly ActivitySource MyActivitySource = new(DiagnosticsConfig.ServiceName);
-    
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] MessageEntity messageEntity)
     {
-        using var myActivity = MyActivitySource.StartActivity("Sending Message", ActivityKind.Client);
+        using var myActivity = DiagnosticsConfig.ActivitySource.StartActivity("Sending Message");
+        myActivity?.SetTag("id", messageEntity.Id);
+        myActivity?.SetTag("message", messageEntity.Message);
         
         var apiUrl = "http://host.docker.internal:8001";
         RestClient client = new RestClient(apiUrl);
