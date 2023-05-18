@@ -11,28 +11,26 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
 builder.Services.AddOpenTelemetry()
     // Configure tracing
-    .WithTracing(tracerProviderBuilder => 
-        tracerProviderBuilder
+    .WithTracing(b =>
+        b
             .AddOtlpExporter()
+            .AddJaegerExporter()
             .AddConsoleExporter()
-            .AddSource(DiagnosticsConfig.ActivitySource.Name,DiagnosticsConfig.ActivitySource.Version)
-            .ConfigureResource(resource => 
+            .AddSource(DiagnosticsConfig.ActivitySource.Name, DiagnosticsConfig.ActivitySource.Version)
+            .ConfigureResource(resource =>
                 resource.AddService(DiagnosticsConfig.ServiceName))
             .AddAspNetCoreInstrumentation()
-            .Build()
-    ) 
+    )
     // Configure metrics
-    .WithMetrics(metricsProviderBuilder =>
-        metricsProviderBuilder
+    .WithMetrics(b =>
+        b
             .AddOtlpExporter()
             .AddConsoleExporter()
             .ConfigureResource(resource => 
                 resource.AddService(DiagnosticsConfig.ServiceName))
             .AddAspNetCoreInstrumentation()
-            .Build()
     );
 
 // Configure logging
