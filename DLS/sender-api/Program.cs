@@ -2,6 +2,7 @@ using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using Prometheus;
 using SenderAPI.Monitoring;
 
     
@@ -46,6 +47,9 @@ builder.Logging.AddOpenTelemetry(options =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 var app = builder.Build();
+
+app.UseHttpMetrics();
+app.MapMetrics();
 
 // Configure the HTTP request pipeline
 app.UseHttpsRedirection();

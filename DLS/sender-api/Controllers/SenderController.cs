@@ -13,7 +13,7 @@ public class SenderController : Controller
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] MessageEntity messageEntity)
     {
-        using var myActivity = DiagnosticsConfig.ActivitySource.StartActivity();
+        using var myActivity = DiagnosticsConfig.ActivitySource.StartActivity("SenderApi");
         myActivity?.SetTag("id", messageEntity.Id);
         myActivity?.SetTag("message", messageEntity.Message);
         
