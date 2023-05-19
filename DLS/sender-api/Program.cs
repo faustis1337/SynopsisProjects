@@ -16,13 +16,14 @@ builder.Services.AddOpenTelemetry()
     // Configure tracing
     .WithTracing(b =>
         b
-            .AddOtlpExporter()
-            .AddJaegerExporter()
-            .AddConsoleExporter()
+            //.AddConsoleExporter()
+            //.AddOtlpExporter()
             .AddSource(DiagnosticsConfig.ActivitySource.Name, DiagnosticsConfig.ActivitySource.Version)
             .ConfigureResource(resource =>
                 resource.AddService(DiagnosticsConfig.ServiceName))
             .AddAspNetCoreInstrumentation()
+            .AddHttpClientInstrumentation()
+            .AddJaegerExporter()
     )
     // Configure metrics
     .WithMetrics(b =>
