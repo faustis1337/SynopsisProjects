@@ -1,6 +1,8 @@
 using OpenTelemetry;
+using OpenTelemetry.Exporter;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
+using OpenTelemetry.Instrumentation.AspNetCore;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Prometheus;
@@ -14,7 +16,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddOpenTelemetry()
-    // Configure tracing
     .WithTracing(b =>
         b
             //.AddOtlpExporter()
@@ -24,7 +25,6 @@ builder.Services.AddOpenTelemetry()
             .AddAspNetCoreInstrumentation()
             .AddHttpClientInstrumentation()
             .AddJaegerExporter()
-            .AddConsoleExporter()
     )
     // Configure metrics
     .WithMetrics(b =>
@@ -35,6 +35,7 @@ builder.Services.AddOpenTelemetry()
                 resource.AddService(DiagnosticsConfig.ServiceName  + ": Metrics"))
             .AddAspNetCoreInstrumentation()
     );
+
 
 // Configure logging
 builder.Logging.AddOpenTelemetry(options =>
