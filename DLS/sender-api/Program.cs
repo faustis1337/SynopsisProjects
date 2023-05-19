@@ -18,13 +18,14 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddOpenTelemetry()
     .WithTracing(b =>
         b
-            .AddOtlpExporter(opts => opts.Endpoint = new Uri("http://localhost4317"))
-            .AddSource(DiagnosticsConfig.ActivitySource.Name, DiagnosticsConfig.ActivitySource.Version)
-            .ConfigureResource(resource =>
-                resource.AddService(DiagnosticsConfig.ServiceName + ": Tracing"))
+            .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(DiagnosticsConfig.ServiceName))
             .AddAspNetCoreInstrumentation()
             .AddHttpClientInstrumentation()
-            .AddJaegerExporter()
+            .AddJaegerExporter(options =>
+            {
+                options.AgentHost = "jaeger";
+                options.AgentPort = 6831;
+            })
             .AddConsoleExporter()
     )
     // Configure metrics
