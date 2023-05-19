@@ -18,8 +18,8 @@ public class SenderController : Controller
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] MessageEntity messageEntity)
     {
-        using (var myActivity = Activity.StartActivity("SenderApi", ActivityKind.Client, parentContext: new ActivityContext()))
-        {
+        using var myActivity = DiagnosticsConfig.ActivitySource.StartActivity("SenderApi");
+        
             var apiUrl = "http://host.docker.internal:8001";
             RestClient client = new RestClient(apiUrl);
             RestRequest request = new RestRequest("/api/messages", Method.Post);
@@ -49,6 +49,6 @@ public class SenderController : Controller
             }
 
             return Ok(response.Content);
-        }
+        
     }
 }
