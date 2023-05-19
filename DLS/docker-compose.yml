@@ -33,8 +33,7 @@ services:
     ports:
       - 9090:9090
     volumes:
-      - ./receiver-api/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-      - ./sender-api/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
     command:
       - --config.file=/etc/prometheus/prometheus.yml
   grafana:
