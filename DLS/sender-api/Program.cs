@@ -17,20 +17,14 @@ builder.Services.AddOpenTelemetry()
     // Configure tracing
     .WithTracing(b =>
         b
-            //.AddConsoleExporter()
             //.AddOtlpExporter()
             .AddSource(DiagnosticsConfig.ActivitySource.Name, DiagnosticsConfig.ActivitySource.Version)
             .ConfigureResource(resource =>
-                resource.AddService(DiagnosticsConfig.ServiceName))
+                resource.AddService(DiagnosticsConfig.ServiceName + ": Tracing"))
             .AddAspNetCoreInstrumentation()
             .AddHttpClientInstrumentation()
-            .AddJaegerExporter(opts =>
-                {
-                    opts.AgentHost = "LocalHost:8002";
-                    opts.AgentPort = 80;
-                    opts.ExportProcessorType = ExportProcessorType.Simple;
-                }
-            )
+            .AddJaegerExporter()
+            .AddConsoleExporter()
     )
     // Configure metrics
     .WithMetrics(b =>
@@ -38,7 +32,7 @@ builder.Services.AddOpenTelemetry()
             .AddOtlpExporter()
             .AddConsoleExporter()
             .ConfigureResource(resource => 
-                resource.AddService(DiagnosticsConfig.ServiceName))
+                resource.AddService(DiagnosticsConfig.ServiceName  + ": Metrics"))
             .AddAspNetCoreInstrumentation()
     );
 
@@ -47,7 +41,7 @@ builder.Logging.AddOpenTelemetry(options =>
     {
         options.IncludeFormattedMessage = true;
         options.SetResourceBuilder(ResourceBuilder.CreateDefault()
-            .AddService(DiagnosticsConfig.ServiceName));
+            .AddService(DiagnosticsConfig.ServiceName + ": Logging"));
         options.AddConsoleExporter();
     });
 

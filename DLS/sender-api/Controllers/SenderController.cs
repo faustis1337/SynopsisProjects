@@ -14,23 +14,16 @@ public class SenderController : Controller
 {
     private static readonly ActivitySource Activity = new(nameof(SenderController));
     
-    private readonly ILogger<SenderController> _logger;
-    private readonly IConfiguration _configuration;
-
-    public SenderController(
-        ILogger<SenderController> logger,
-        IConfiguration configuration)
-    {
-        _logger = logger;
-        _configuration = configuration;
-    }
-
+    
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] MessageEntity messageEntity)
     {
         using (var myActivity = Activity.StartActivity("SenderApi", ActivityKind.Client, parentContext: new ActivityContext()))
         {
-
+            var apiUrl = "http://host.docker.internal:8001";
+            RestClient client = new RestClient(apiUrl);
+            RestRequest request = new RestRequest("/api/messages", Method.Post);
+            
             myActivity?.SetTag("id", messageEntity.Id);
             myActivity?.SetTag("message", messageEntity.Message);
 
@@ -41,11 +34,6 @@ public class SenderController : Controller
             {
                 r.Headers.Add(key, value);
             });
-            
-            
-            var apiUrl = "http://host.docker.internal:8001";
-            RestClient client = new RestClient(apiUrl);
-            RestRequest request = new RestRequest("/api/messages", Method.Post);
 
             request.AddJsonBody(new
             {
