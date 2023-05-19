@@ -1,3 +1,4 @@
+using OpenTelemetry;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -23,7 +24,13 @@ builder.Services.AddOpenTelemetry()
                 resource.AddService(DiagnosticsConfig.ServiceName))
             .AddAspNetCoreInstrumentation()
             .AddHttpClientInstrumentation()
-            .AddJaegerExporter()
+            .AddJaegerExporter(opts =>
+                {
+                    opts.AgentHost = "LocalHost:8002";
+                    opts.AgentPort = 80;
+                    opts.ExportProcessorType = ExportProcessorType.Simple;
+                }
+            )
     )
     // Configure metrics
     .WithMetrics(b =>
@@ -51,6 +58,7 @@ var app = builder.Build();
 
 app.UseHttpMetrics();
 app.MapMetrics();
+
 
 // Configure the HTTP request pipeline
 app.UseHttpsRedirection();
