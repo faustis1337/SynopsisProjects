@@ -18,7 +18,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddOpenTelemetry()
     .WithTracing(b =>
         b
-            .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(DiagnosticsConfig.ServiceName))
+            .SetResourceBuilder(
+                ResourceBuilder.CreateDefault()
+                    .AddService(DiagnosticsConfig.ServiceName))
             .AddAspNetCoreInstrumentation()
             .AddHttpClientInstrumentation()
             .AddJaegerExporter(options =>
@@ -28,13 +30,12 @@ builder.Services.AddOpenTelemetry()
             })
             .AddConsoleExporter()
     )
-    // Configure metrics
     .WithMetrics(b =>
         b
-            .AddOtlpExporter()
             .AddConsoleExporter()
             .ConfigureResource(resource => 
-                resource.AddService(DiagnosticsConfig.ServiceName  + ": Metrics"))
+                resource.AddService(
+                    DiagnosticsConfig.ServiceName  + ": Metrics"))
             .AddAspNetCoreInstrumentation()
     );
 

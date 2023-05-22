@@ -12,8 +12,6 @@ namespace SenderAPI.Controllers;
 [Route("[controller]")]
 public class SenderController : Controller
 {
-    private static readonly ActivitySource Activity = new(nameof(SenderController));
-    
     
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] MessageEntity messageEntity)
@@ -26,15 +24,7 @@ public class SenderController : Controller
             
             myActivity?.SetTag("id", messageEntity.Id);
             myActivity?.SetTag("message", messageEntity.Message);
-
-            var activity = myActivity?.Context ?? System.Diagnostics.Activity.Current?.Context ?? default;
-            var propagationContext = new PropagationContext(activity, Baggage.Current);
-            var propagator = new TraceContextPropagator();
-            propagator.Inject(propagationContext, messageEntity, (r, key, value) =>
-            {
-                r.Headers.Add(key, value);
-            });
-
+            
             request.AddJsonBody(new
             {
                 id = messageEntity.Id,
@@ -52,3 +42,11 @@ public class SenderController : Controller
         
     }
 }
+
+// var activity = myActivity?.Context ?? System.Diagnostics.Activity.Current?.Context ?? default;
+// var propagationContext = new PropagationContext(activity, Baggage.Current);
+// var propagator = new TraceContextPropagator();
+// propagator.Inject(propagationContext, messageEntity, (r, key, value) =>
+// {
+//     r.Headers.Add(key, value);
+// });
