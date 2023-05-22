@@ -16,11 +16,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddOpenTelemetry()
+    .ConfigureResource(resource => 
+        resource.AddService(
+            DiagnosticsConfig.ServiceName))
     .WithTracing(b =>
         b
-            .SetResourceBuilder(
-                ResourceBuilder.CreateDefault()
-                    .AddService(DiagnosticsConfig.ServiceName))
+            // .SetResourceBuilder(
+            //     ResourceBuilder.CreateDefault()
+            //         .AddService(DiagnosticsConfig.ServiceName))
             .AddAspNetCoreInstrumentation()
             .AddHttpClientInstrumentation()
             .AddJaegerExporter(options =>
@@ -33,9 +36,6 @@ builder.Services.AddOpenTelemetry()
     .WithMetrics(b =>
         b
             .AddConsoleExporter()
-            .ConfigureResource(resource => 
-                resource.AddService(
-                    DiagnosticsConfig.ServiceName  + ": Metrics"))
             .AddAspNetCoreInstrumentation()
             .AddHttpClientInstrumentation()
     );

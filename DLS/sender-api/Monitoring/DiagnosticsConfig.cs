@@ -5,7 +5,7 @@ namespace SenderAPI.Monitoring;
 
 public static class DiagnosticsConfig
 {
-    public const string ServiceName = "SenderAPI";
+    public const string ServiceName = "senderapi";
     public const string ServiceVersion = "1.0.0";
     public static readonly ActivitySource ActivitySource = new ActivitySource(ServiceName, ServiceVersion);
 
