@@ -16,11 +16,11 @@ services:
     build:
       context: ./sender-api
       dockerfile: Dockerfile
-    environment:
-      - OTEL_SERVICE_NAME=senderapi
-      - OTEL_METRICS_EXPORTER=prometheus
-      - OTEL_TRACES_EXPORTER=jaeger
-      - OTEL_EXPORTER_JAEGER_ENDPOINT=http://jaeger:14268
+#    environment:
+#      - OTEL_SERVICE_NAME=senderapi
+#      - OTEL_METRICS_EXPORTER=prometheus
+#      - OTEL_TRACES_EXPORTER=jaeger
+#      - OTEL_EXPORTER_JAEGER_ENDPOINT=http://jaeger:14268
     ports:
       - 8002:80
   jaeger:

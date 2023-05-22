@@ -33,12 +33,13 @@ builder.Services.AddOpenTelemetry()
         b.AddAspNetCoreInstrumentation()
             .AddHttpClientInstrumentation()
             .AddConsoleExporter()
-            .AddMeter(DiagnosticsConfig.ServiceName + "Metrics")
-            .AddPrometheusExporter(options =>
-                {
-                    options.StartHttpListener = true;
-                    options.HttpListenerPrefixes = new string[] { "http://localhost:9090/" };
-                }
+            //.AddMeter(DiagnosticsConfig.ServiceName + "Metrics")
+            .AddPrometheusExporter(
+                // options =>
+                // {
+                //     
+                //     options.StartHttpListener = true;
+                //     options.HttpListenerPrefixes = new string[] { "http://localhost:9090/" }; }
                 )
     );
 
