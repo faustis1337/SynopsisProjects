@@ -33,14 +33,7 @@ builder.Services.AddOpenTelemetry()
         b.AddAspNetCoreInstrumentation()
             .AddHttpClientInstrumentation()
             .AddConsoleExporter()
-            //.AddMeter(DiagnosticsConfig.ServiceName + "Metrics")
-            .AddPrometheusExporter(
-                // options =>
-                // {
-                //     
-                //     options.StartHttpListener = true;
-                //     options.HttpListenerPrefixes = new string[] { "http://localhost:9090/" }; }
-                )
+            .AddPrometheusExporter()
     );
 
 
@@ -60,7 +53,7 @@ var app = builder.Build();
 
 app.UseHttpMetrics();
 app.MapMetrics();
-
+app.UseOpenTelemetryPrometheusScrapingEndpoint();
 
 // Configure the HTTP request pipeline
 app.UseHttpsRedirection();
