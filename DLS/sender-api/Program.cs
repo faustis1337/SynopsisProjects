@@ -37,6 +37,7 @@ builder.Services.AddOpenTelemetry()
                 resource.AddService(
                     DiagnosticsConfig.ServiceName  + ": Metrics"))
             .AddAspNetCoreInstrumentation()
+            .AddHttpClientInstrumentation()
     );
 
 
