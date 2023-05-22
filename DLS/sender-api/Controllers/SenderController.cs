@@ -16,28 +16,24 @@ public class SenderController : Controller
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] MessageEntity messageEntity)
     {
-        using var myActivity = DiagnosticsConfig.ActivitySource.StartActivity("SenderApi");
-        
+        using var myActivity = DiagnosticsConfig.ActivitySource.StartActivity();
+            myActivity?.SetTag("id", messageEntity.Id);
+            myActivity?.SetTag("message", messageEntity.Message);
+            
             var apiUrl = "http://host.docker.internal:8001";
             RestClient client = new RestClient(apiUrl);
             RestRequest request = new RestRequest("/api/messages", Method.Post);
-            
-            myActivity?.SetTag("id", messageEntity.Id);
-            myActivity?.SetTag("message", messageEntity.Message);
             
             request.AddJsonBody(new
             {
                 id = messageEntity.Id,
                 message = messageEntity.Message
             });
-
             var response = await client.ExecutePostAsync(request);
-
             if (!response.IsSuccessful)
             {
                 return BadRequest(response.StatusCode);
             }
-
             return Ok(response.Content);
         
     }
