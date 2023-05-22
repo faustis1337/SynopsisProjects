@@ -20,24 +20,19 @@ builder.Services.AddOpenTelemetry()
         resource.AddService(
             DiagnosticsConfig.ServiceName))
     .WithTracing(b =>
-        b
-            // .SetResourceBuilder(
-            //     ResourceBuilder.CreateDefault()
-            //         .AddService(DiagnosticsConfig.ServiceName))
-            .AddAspNetCoreInstrumentation()
+        b.AddAspNetCoreInstrumentation()
             .AddHttpClientInstrumentation()
+            .AddConsoleExporter()
             .AddJaegerExporter(options =>
             {
                 options.AgentHost = "jaeger";
                 options.AgentPort = 6831;
             })
-            .AddConsoleExporter()
     )
     .WithMetrics(b =>
-        b
-            .AddConsoleExporter()
-            .AddAspNetCoreInstrumentation()
+        b.AddAspNetCoreInstrumentation()
             .AddHttpClientInstrumentation()
+            .AddConsoleExporter()
     );
 
 
