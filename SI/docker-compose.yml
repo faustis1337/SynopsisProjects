@@ -5,14 +5,14 @@ services:
     build:
       context: .
       dockerfile: LoadBalancer/Dockerfile
-    image: nitrozeus1/search-engine-load-balancer:${DEPLOY_NUMBER}
+    image: faustis1337/search-engine-searchloadbalancer:latest
     ports:
       - 9020:80
   api-search:
     build:
       context: .
       dockerfile: "ApiSearch/Dockerfile"
-    image: nitrozeus1/api-search:${DEPLOY_NUMBER}
+    image: faustis1337/search-engine-api-search:latest
     volumes: #link your own database root here
       - "C:/EnronMini:/data"
     deploy:
@@ -23,7 +23,7 @@ services:
     build:
       context: .
       dockerfile: "UserApi/Dockerfile"
-    image: nitrozeus1/api-user:${DEPLOY_NUMBER}
+    image: faustis1337/search-engine-api-user:latest
     ports:
       - 8000-8022:80
     deploy:
@@ -32,7 +32,7 @@ services:
     build:
       context: .
       dockerfile: "WebSearch/Dockerfile"
-    image: nitrozeus1/web-search:${DEPLOY_NUMBER}
+    image: faustis1337/search-engine-frontend:latest
     ports:
       - 9023:80
   featurehub:
@@ -46,7 +46,7 @@ services:
     build:
       context: .
       dockerfile: UserLoadBalancer/Dockerfile
-    image: nitrozeus1/search-engine-user-load-balancer:${DEPLOY_NUMBER}
+    image: faustis1337/search-engine-userloadbalancer:latest
     ports:
       - 9025:80
 

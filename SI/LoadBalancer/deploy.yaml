@@ -1,0 +1,21 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: search-loadbalancer-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: search-loadbalancer
+  template:
+    metadata:
+      labels:
+        app: search-loadbalancer
+    spec:
+      containers:
+        - name: search-loadbalancer
+          image: faustis1337/search-engine-searchloadbalancer:latest
+          ports:
+            - containerPort: 80
+              
+              
