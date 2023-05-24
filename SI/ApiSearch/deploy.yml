@@ -1,0 +1,19 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: searchapi-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: searchapi
+  template:
+    metadata:
+      labels:
+        app: searchapi
+    spec:
+      containers:
+        - name: api-search
+          image: faustis1337/search-engine-api-search:latest
+          ports:
+            - containerPort: 80

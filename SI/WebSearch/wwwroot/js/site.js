@@ -40,8 +40,10 @@ var ViewModel = function() {
     }
     
     me.search = function (){
+        console.log("was updated1");
         $.ajax({
             url: "http://localhost:9020/LoadBalancer?terms=" + me.userQuery() + "&numberOfResults=10",
+            //url: "http://myapp-service.default.svc.cluster.local:80/LoadBalancer?terms=" + me.userQuery() + "&numberOfResults=10",
             success: function (data) {
                 me.queryMatches(data.documents.length);
                 me.queryTime(data.elapsedMilliseconds);
