@@ -48,6 +48,8 @@ pipeline {
                 }
             }
         }
+	}
+}
     
 //         stage("Build") {
 //             steps {
@@ -69,5 +71,5 @@ pipeline {
 //                 build job: 'SE-Deploy', parameters: [[$class: 'StringParameterValue', name: 'DEPLOY_NUMBER', value: "${BUILD_NUMBER}"]]
 //             }   
 //         }
-    }
-}
+//    }
+//}
