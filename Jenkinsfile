@@ -5,9 +5,9 @@ pipeline {
     }
     environment {
         DEPLOY_NUMBER = "${BUILD_NUMBER}"
-        dockerimageapiname = "nitrozeus1/api-search:${DEPLOY_NUMBER}"
-        dockerimageloadname = "nitrozeus1/web-search:${DEPLOY_NUMBER}"
-        dockerimagewebname = "nitrozeus1/search-engine-load-balancer:${DEPLOY_NUMBER}"
+        dockerimageapiname = "nitrozeus1/api-search:latest" //"nitrozeus1/api-search:${DEPLOY_NUMBER}"
+        dockerimageloadname = "nitrozeus1/web-search:latest" // "nitrozeus1/web-search:${DEPLOY_NUMBER}"
+        dockerimagewebname = "nitrozeus1/search-engine-load-balancer:latest" //"nitrozeus1/search-engine-load-balancer:${DEPLOY_NUMBER}"
         dockerimageapi = ""
         dockerimageload = ""
         dockerimageweb = ""
