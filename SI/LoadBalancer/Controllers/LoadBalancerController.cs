@@ -28,6 +28,18 @@ namespace LoadBalancer.Controllers {
             _loadBalancer.SetActiveStrategy(strategy.From());
             Console.WriteLine($"Set strategy to {strategy.ToString()}");
         }
+        
+        [HttpGet("GetServers")]
+        public IActionResult  GetServers()
+        {
+            return Ok(_loadBalancer.GetAllServices());
+        }
+        
+        [HttpPost("AddServer")]
+        public IActionResult  AddServer(string url)
+        {
+            return Ok(_loadBalancer.AddService(url));
+        }
 
         [HttpGet]
         public IActionResult Search(string terms, int numberOfResults)
