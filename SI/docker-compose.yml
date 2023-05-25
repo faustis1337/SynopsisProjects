@@ -14,20 +14,11 @@ services:
       dockerfile: "ApiSearch/Dockerfile"
     image: faustis1337/search-engine-api-search:latest
     volumes: #link your own database root here
-      - "C:/EnronMini:/data"
+      - "./data:/data"
     deploy:
       replicas: 3
     depends_on:
       - load-balancer
-  api-user:
-    build:
-      context: .
-      dockerfile: "UserApi/Dockerfile"
-    image: faustis1337/search-engine-api-user:latest
-    ports:
-      - 8000-8022:80
-    deploy:
-      replicas: 3
   web-ui:
     build:
       context: .
@@ -35,20 +26,6 @@ services:
     image: faustis1337/search-engine-frontend:latest
     ports:
       - 9023:80
-  featurehub:
-    image: featurehub/party-server:latest
-    restart: always
-    volumes:
-      - featurehub-h2-data:/db
-    ports:
-      - 8085:8085
-  user-load-balancer:
-    build:
-      context: .
-      dockerfile: UserLoadBalancer/Dockerfile
-    image: faustis1337/search-engine-userloadbalancer:latest
-    ports:
-      - 9025:80
 
 volumes:
   featurehub-h2-data:

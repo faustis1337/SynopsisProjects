@@ -1,20 +1,28 @@
 ﻿apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: search-loadbalancer-deployment
+  name: load-balancer-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: search-loadbalancer
+      app: load-balancer
   template:
     metadata:
       labels:
-        app: search-loadbalancer
+        app: load-balancer
     spec:
+      volumes:
+        - name: database-volume
+          persistentVolumeClaim:
+            claimName: database-pvc
       containers:
-        - name: search-loadbalancer
+        - name: load-balancer
           image: faustis1337/search-engine-searchloadbalancer:latest
+          volumeMounts:
+            - name: database-volume
+              mountPath: /path/to/mount/data
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
               

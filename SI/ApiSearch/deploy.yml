@@ -1,9 +1,10 @@
 ﻿apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: searchapi-deployment
+  name: searchapi-statefulset
 spec:
   replicas: 3
+  serviceName: searchapi-service
   selector:
     matchLabels:
       app: searchapi
@@ -13,7 +14,8 @@ spec:
         app: searchapi
     spec:
       containers:
-        - name: api-search
+        - name: searchapi
           image: faustis1337/search-engine-api-search:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 80

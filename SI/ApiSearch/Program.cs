@@ -1,6 +1,28 @@
+using k8s;
 using RestSharp;
 
 var builder = WebApplication.CreateBuilder(args);
+
+string kubernetesServiceHost = Environment.GetEnvironmentVariable("KUBERNETES_SERVICE_HOST");
+
+Console.WriteLine(Environment.MachineName);
+
+
+RestClient restClient;
+
+if (!string.IsNullOrEmpty(kubernetesServiceHost))
+{
+    restClient = new RestClient("http://load-balancer-service:9020");
+    restClient.Post(new RestRequest($"LoadBalancer/AddServer/?url=http://{Environment.MachineName}.searchapi-service.default.svc.cluster.local", Method.Post));
+}
+else
+{
+    restClient = new RestClient("http://load-balancer");
+    restClient.Post(new RestRequest("LoadBalancer/AddServer/?url=http://" + Environment.MachineName, Method.Post));  
+}
+
+
+
 
 // Add services to the container.
 

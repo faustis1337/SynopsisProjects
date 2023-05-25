@@ -2,13 +2,6 @@
     ViewData["Title"] = "Search";
 }
 
-<div id="login-container" class="text-center mb-5">
-    <h1 class="display-4">Login</h1>
-    <input data-bind="textInput: username" placeholder="username"/>
-    <input data-bind="textInput: password" placeholder="password" type="password"/>
-    <button type="button" class="btn btn-primary" data-bind="click: login">LOGIN</button>
-</div>
-
 <div class="text-center">
     <div>
         <h1 class="display-4">Web Search</h1>
@@ -16,8 +9,8 @@
         <button id="search-button" type="button" class="btn btn-primary" data-bind="click: search">SEARCH</button>
     </div>
     <div class="align-content-center">
-        <h4>Number of hits: {{queryMatches}} </h4>
-        <h4>Time taken in: {{queryTime}} </h4>
+        <h4>Number of hits: <span data-bind="text: queryMatches"></span> </h4>
+        <h4>Time taken in: <span data-bind="text: queryTime"></span> </h4>
         <ul data-role="listview" data-bind="foreach: { data: returnedQuery, as: 'listItem'}">
             <li><a href="#" data-bind="text: listItem.path"></a></li>
         </ul>
