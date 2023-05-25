@@ -1,4 +1,5 @@
 pipeline {
+    agent any
     triggers {
         pollSCM("* * * * *")
     }
@@ -11,7 +12,6 @@ pipeline {
         dockerimageload = ""
         dockerimageweb = ""
     }
-    agent any
 
     stages {
         stage('Checkout Source') {
