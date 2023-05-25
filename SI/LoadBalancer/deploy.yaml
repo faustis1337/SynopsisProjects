@@ -12,16 +12,9 @@ spec:
       labels:
         app: load-balancer
     spec:
-      volumes:
-        - name: database-volume
-          persistentVolumeClaim:
-            claimName: database-pvc
       containers:
         - name: load-balancer
           image: faustis1337/search-engine-searchloadbalancer:latest
-          volumeMounts:
-            - name: database-volume
-              mountPath: /path/to/mount/data
           imagePullPolicy: Always
           ports:
             - containerPort: 80

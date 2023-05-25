@@ -13,8 +13,6 @@ services:
       context: .
       dockerfile: "ApiSearch/Dockerfile"
     image: faustis1337/search-engine-api-search:latest
-    volumes: #link your own database root here
-      - "./data:/data"
     deploy:
       replicas: 3
     depends_on:

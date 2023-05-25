@@ -1,8 +1,6 @@
 using LoadBalancer.LoadBalancer;
 
 var builder = WebApplication.CreateBuilder(args);
-Console.WriteLine("Running ON");
-Console.WriteLine(Environment.MachineName);
 // Add services to the container.
 
 builder.Services.AddControllers();
