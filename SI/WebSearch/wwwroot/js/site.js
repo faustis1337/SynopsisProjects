@@ -15,9 +15,11 @@ var ViewModel = function() {
     me.username = ko.observable();
     me.password = ko.observable();
     
+    const endpoint = "http://localhost:30016"; // http://localhost:9020
+    
     me.search = function (){
         $.ajax({
-            url: "http://localhost:9020/LoadBalancer?terms=" + me.userQuery() + "&numberOfResults=10",
+            url: endpoint + "/LoadBalancer?terms=" + me.userQuery() + "&numberOfResults=10",
             success: function (data) {
                 me.queryMatches(data.documents.length);
                 me.queryTime(data.elapsedMlliseconds);
