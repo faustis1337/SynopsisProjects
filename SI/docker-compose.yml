@@ -7,14 +7,12 @@ services:
       dockerfile: LoadBalancer/Dockerfile
     image: faustis1337/search-engine-searchloadbalancer:latest
     ports:
-      - 9020:80
+      - 30016:80
   api-search:
     build:
       context: .
       dockerfile: "ApiSearch/Dockerfile"
     image: faustis1337/search-engine-api-search:latest
-    volumes: #link your own database root here
-      - "./data:/data"
     deploy:
       replicas: 3
     depends_on:

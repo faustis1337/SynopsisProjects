@@ -18,4 +18,5 @@ RUN dotnet publish "ApiSearch.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY ApiSearch/data/ /data
 ENTRYPOINT ["dotnet", "ApiSearch.dll"]
