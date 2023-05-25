@@ -1,5 +1,4 @@
 pipeline {
-    agent any
     triggers {
         pollSCM("* * * * *")
     }
@@ -12,21 +11,25 @@ pipeline {
         dockerimageload = ""
         dockerimageweb = ""
     }
+    agent any
+
     stages {
         stage('Checkout Source') {
             steps {
             git 'https://github.com/faustis1337/SynopsisProjects.git'
             }
         }
+    }
         
         stage('Build image') {
         steps{
             script {
                 dockerimageapi = docker.build dockerimageapiname
                 dockerimageload = docker.build dockerimageloadname
-                dockerImageweb = docker.build dockerimagewebname
+                dockerimageweb = docker.build dockerimagewebname
             }
         }
+    }    
         
         stage('Pushing Image') {
             environment {
@@ -49,5 +52,4 @@ pipeline {
             }
         }
 	}
-}
 }
