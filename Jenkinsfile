@@ -19,7 +19,7 @@ pipeline {
             git 'https://github.com/faustis1337/SynopsisProjects.git'
             }
         }
-    }
+    
         
         stage('Build image') {
         steps{
@@ -27,19 +27,23 @@ pipeline {
                 dockerimageapi = docker.build dockerimageapiname
                 dockerimageload = docker.build dockerimageloadname
                 dockerimageweb = docker.build dockerimagewebname
+                }
             }
         }
-    }    
+        
         
         stage('Pushing Image') {
             environment {
-                    registryCredential = 'DockerHub'
-                }
-            steps{
-                script {
-                    docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
-                    dockerImage.push("latest")
-                    }
+                            registryCredential = 'DockerHub'
+                        }
+            steps
+            {
+                script 
+                {
+                    docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) 
+                        {
+                            dockerImage.push("latest")
+                        }
                 }
             }  
         }
@@ -47,7 +51,7 @@ pipeline {
         stage('Deploying to Kubernetes') {
             steps {
                 script {
-                kubernetesDeploy(configs: "deployment.yaml", "service.yaml")
+                        kubernetesDeploy(configs: "deployment.yaml", "service.yaml")
                 }
             }
         }
