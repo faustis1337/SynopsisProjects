@@ -5,14 +5,14 @@ services:
     build:
       context: .
       dockerfile: LoadBalancer/Dockerfile
-    image: faustis1337/search-engine-searchloadbalancer:latest
+    image: nitrozeus1/search-engine-searchloadbalancer:latest
     ports:
       - 30016:80
   api-search:
     build:
       context: .
       dockerfile: "ApiSearch/Dockerfile"
-    image: faustis1337/search-engine-api-search:latest
+    image: nitrozeus1/search-engine-api-search:latest
     deploy:
       replicas: 3
     depends_on:
@@ -21,9 +21,6 @@ services:
     build:
       context: .
       dockerfile: "WebSearch/Dockerfile"
-    image: faustis1337/search-engine-frontend:latest
+    image: nitrozeus1/search-engine-frontend:latest
     ports:
       - 9023:80
-
-#volumes:
-#  featurehub-h2-data:
