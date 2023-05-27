@@ -1,53 +1,45 @@
 pipeline {
-  agent any
-  
-    stages {
-      stage("EchoNumber") {
-          steps {
-              echo "DOCKER USER ${DOCKER_USER}"
-              echo "RUNNING ON ${BUILD_NUMBER}"
-          }
-      }
+    agent any
           
-      stage("Clean containers") {
-          steps {
-              script {
-                  try {
-                      dir('SI') {
-                          sh "docker compose --env-file .env down"
-                      }
-                  } finally {
-                  }
-              }
-          }
-      }
-    
-      stage("Build NET") {
-          steps {
-             dir('SI') {
-              sh "dotnet build --configuration Release"
-              }
-
-          }
-      }
-      
-      stage("BUILD CONTAINERS") {
-                steps {
-                dir('SI') {
-                    sh "docker compose --env-file .env build"
-                    }
-                }
-            }
-      
-      stage("Push to registry") {
+        stage("Clean containers") {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'DockerHub', passwordVariable: 'DH_PASSWORD', usernameVariable: 'DH_USERNAME')]) {
-                    sh 'docker login -u $DH_USERNAME -p $DH_PASSWORD'
-                    dir('SI') {
-                    sh "docker compose --env-file .env push"
+                script {
+                    try {
+                        dir('SI') {
+                            sh "docker compose --env-file .env down"
+                        }
+                    } finally {
                     }
                 }
             }
         }
-}
+    
+        stage("Build NET") {
+            steps {
+                dir('SI') {
+                    sh "dotnet build --configuration Release"
+                }
+            }
+        }
+      
+        stage("BUILD CONTAINERS") {
+            steps {
+                dir('SI') {
+                    sh "docker compose --env-file .env build"
+                    sh "docker compose --env-file .env up -d"
+                }
+            }
+        }
+      
+        stage("Push to registry") {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'DockerHub', passwordVariable: 'DH_PASSWORD', usernameVariable: 'DH_USERNAME')]) {
+                    sh 'docker login -u $DH_USERNAME -p $DH_PASSWORD'
+                    dir('SI') {
+                        sh "docker compose --env-file .env push"
+                    }
+                }
+            }
+        }
+    }
 }

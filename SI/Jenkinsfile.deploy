@@ -1,29 +1,34 @@
 pipeline {
     agent any
-           stages {
-            stage("Clean kubernetes") {
-                steps {
+  
+    stages {
+        stage("Clean kubernetes") {
+            steps {
                 sh "kubectl delete pods,deployments,statefulsets,services,pv,pvc,replicasets,configmaps --all"
-                }
             }
-            
-            stage("Clean containers") {
-                                    steps {
-                                        script {
-                                            try {
-                                                sh "docker compose --env-file .env down"
-                                            }
-                                            finally { }
-                                        }
-                                    }
-                                }
-                                
-            stage("Deploy") {
-                        steps {
-                        sh "kubectl apply -f LoadBalancer/deploy.yml"
-                        sh "kubectl apply -f ApiSearch/deploy.yml"
-                        sh "kubectl apply -f WebSearch/deploy.yml"
+        }
+        
+        stage("Clean containers") {
+            steps {
+                script {
+                    try {
+                        dir('SI') {
+                            sh "docker compose --env-file .env down"
                         }
                     }
+                    finally { }
+                }
+            }
         }
+        
+        stage("Deploy") {
+            steps {
+                dir('SI') {
+                    sh "kubectl apply -f LoadBalancer/deploy.yml"
+                    sh "kubectl apply -f ApiSearch/deploy.yml"
+                    sh "kubectl apply -f WebSearch/deploy.yml"
+                }
+            }
+        }
+    }
 }
