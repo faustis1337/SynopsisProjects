@@ -14,7 +14,7 @@ pipeline {
               script {
                   try {
                       dir('SI') {
-                          sh "docker-compose --env-file .env down"
+                          sh "docker compose --env-file .env down"
                       }
                   } finally {
                   }
