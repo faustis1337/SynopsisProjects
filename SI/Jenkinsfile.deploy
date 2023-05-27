@@ -1,14 +1,29 @@
 pipeline {
     agent any
-    parameters {
-        string defaultValue: "", name: 'DEPLOY_NUMBER', trim: true
-    }
-    stages {
-        stage("Deploy") {
-            steps {
-                sh "docker compose rm"
-                sh "docker compose up -d"
+           stages {
+            stage("Clean kubernetes") {
+                steps {
+                sh "kubectl delete pods,deployments,statefulsets,services,pv,pvc,replicasets,configmaps --all"
+                }
             }
+            
+            stage("Clean containers") {
+                                    steps {
+                                        script {
+                                            try {
+                                                sh "docker compose --env-file .env down"
+                                            }
+                                            finally { }
+                                        }
+                                    }
+                                }
+                                
+            stage("Deploy") {
+                        steps {
+                        sh "kubectl apply -f LoadBalancer/deploy.yml"
+                        sh "kubectl apply -f ApiSearch/deploy.yml"
+                        sh "kubectl apply -f WebSearch/deploy.yml"
+                        }
+                    }
         }
-    }
 }
