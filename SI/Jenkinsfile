@@ -1,16 +1,16 @@
 pipeline {
     agent any
-  
-          stage('ENV variable check') {
-              steps {
-                  withCredentials([usernamePassword(credentialsId: 'DockerHub', usernameVariable: 'DH_USERNAME')]) {
-                      env.DH_USERNAME = DH_USERNAME
-                      echo "DH_USERNAME: ${env.DH_USERNAME}"
-                  }
-                  echo "env variable - DH_USERNAME: ${env.DH_USERNAME}"
-              }
-  
+ 
     stages {
+              stage('ENV variable check') {
+                  steps {
+                      withCredentials([usernamePassword(credentialsId: 'DockerHub', usernameVariable: 'DH_USERNAME')]) {
+                          env.DH_USERNAME = DH_USERNAME
+                          echo "DH_USERNAME: ${env.DH_USERNAME}"
+                      }
+                      echo "env variable - DH_USERNAME: ${env.DH_USERNAME}"
+                  }
+                  
         stage("Clean containers") {
             steps {
                 script {
