@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
+using Sql.Connection;
 using Sql.Interfaces;
 using Sql.Models;
 
@@ -7,16 +8,11 @@ namespace Sql.Repository;
 
 public class SqlRepo : ISqlRepo
 {
-    private readonly IConfiguration _configuration;
+    private string conString = "Data Source = .;Initial Catalog = SqlProject ; Integrated Security = true";
 
-    public SqlRepo(IConfiguration configuration)
-    {
-        _configuration = configuration;
-    }
-    
     public  List<Students> GetAllStudents()
     {
-        SqlConnection con =  new SqlConnection(_configuration.GetConnectionString("SqlProject").ToString());
+        SqlConnection con =  Connector.GetConnection();
         SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT * FROM Students", con);
         DataTable dataTable = new DataTable();
         dataAdapter.Fill(dataTable);
@@ -40,7 +36,7 @@ public class SqlRepo : ISqlRepo
 
     public List<Classes> GetAllClasses()
     {
-        SqlConnection con =  new SqlConnection(_configuration.GetConnectionString("SqlProject").ToString());
+        SqlConnection con = Connector.GetConnection();
         SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT * FROM Classes", con);
         DataTable dataTable = new DataTable();
         dataAdapter.Fill(dataTable);
@@ -64,26 +60,30 @@ public class SqlRepo : ISqlRepo
 
     public void AddStudents(StudentCreateDto studentsCreate)
     {
-        SqlConnection con =  new SqlConnection(_configuration.GetConnectionString("SqlProject").ToString());
+        SqlConnection con = Connector.GetConnection();
         String query = "INSERT INTO Students (firstName, lastName) VALUES ('"+studentsCreate.FirstName+"','"+studentsCreate.LastName+"')";
         SqlCommand command = new SqlCommand(query, con);
+        con.Open();
         command.ExecuteNonQuery();
+        con.Close();
     }
 
     public void AddClasses(ClassCreateDto classCreate)
     {
-        SqlConnection con =  new SqlConnection(_configuration.GetConnectionString("SqlProject").ToString());
+        SqlConnection con = Connector.GetConnection();
         String query = "INSERT INTO Classes (className, classInfo) VALUES ('"+classCreate.ClassName+"','"+classCreate.ClassInfo+"')";
         SqlCommand command = new SqlCommand(query, con);
+        con.Open();
         command.ExecuteNonQuery();
-    }
+        con.Close();    }
 
     public void AddStudentToClass(EnrollmentCreateDto enrollmentsCreate)
     {
-        SqlConnection con =  new SqlConnection(_configuration.GetConnectionString("SqlProject").ToString());
+        SqlConnection con = Connector.GetConnection();
         String query = "INSERT INTO Classes (className, classInfo) VALUES ('"+enrollmentsCreate.StudentId+"','"+enrollmentsCreate.ClassId+"')";
         SqlCommand command = new SqlCommand(query, con);
+        con.Open();
         command.ExecuteNonQuery();
-        
+        con.Close();        
     }
 }
