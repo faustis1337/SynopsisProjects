@@ -45,7 +45,7 @@ public class ClassRepo : IClassRepo
     public void EditClasses(int id, ClassUpdateDto studentsUpdate)
     {
         SqlConnection con = Connector.GetConnection();
-        String query = "UPDATE Students SET className = '"+studentsUpdate.ClassName+"', classInfo = '"+studentsUpdate.ClassInfo+"' Where id = '"+id+"'";
+        String query = "UPDATE Classes SET className = '"+studentsUpdate.ClassName+"', classInfo = '"+studentsUpdate.ClassInfo+"' Where id = '"+id+"'";
         SqlCommand command = new SqlCommand(query, con);
         con.Open();
         command.ExecuteNonQuery();

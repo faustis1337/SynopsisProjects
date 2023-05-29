@@ -12,7 +12,7 @@ public class EnrollmentRepo : IEnrollmentRepo
     public  List<Enrollments> GetAllEnrolls()
     {
         SqlConnection con =  Connector.GetConnection();
-        SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT * FROM Students", con);
+        SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT * FROM Enrollments", con);
         DataTable dataTable = new DataTable();
         dataAdapter.Fill(dataTable);
         
@@ -35,7 +35,7 @@ public class EnrollmentRepo : IEnrollmentRepo
     public void AddStudentToClass(EnrollmentCreateDto enrollmentsCreate)
     {
         SqlConnection con = Connector.GetConnection();
-        String query = "INSERT INTO Classes (className, classInfo) VALUES ('"+enrollmentsCreate.StudentId+"','"+enrollmentsCreate.ClassId+"')";
+        String query = "INSERT INTO Enrollments (className, classInfo) VALUES ('"+enrollmentsCreate.StudentId+"','"+enrollmentsCreate.ClassId+"')";
         SqlCommand command = new SqlCommand(query, con);
         con.Open();
         command.ExecuteNonQuery();
@@ -45,7 +45,7 @@ public class EnrollmentRepo : IEnrollmentRepo
     public void EditEnrollments(int id, EnrollmentUpdateDto studentsUpdate)
     {
         SqlConnection con = Connector.GetConnection();
-        String query = "UPDATE Students SET student_id = '"+studentsUpdate.StudentId+"', class_id = '"+studentsUpdate.ClassId+"' Where id = '"+id+"'";
+        String query = "UPDATE Enrollments SET student_id = '"+studentsUpdate.StudentId+"', class_id = '"+studentsUpdate.ClassId+"' Where id = '"+id+"'";
         SqlCommand command = new SqlCommand(query, con);
         con.Open();
         command.ExecuteNonQuery();
