@@ -43,8 +43,7 @@ public class PopulateTable
                         "INSERT INTO Enrollments(student_id, class_id) VALUES ( 4, 5)"+
                         "INSERT INTO Enrollments(student_id, class_id) VALUES ( 5, 1)"+
                         "INSERT INTO Enrollments(student_id, class_id) VALUES ( 5, 4)"+
-                        "INSERT INTO Enrollments(student_id, class_id) VALUES ( 5, 5)"
-            ;
+                        "INSERT INTO Enrollments(student_id, class_id) VALUES ( 5, 5)";
         
         SqlCommand command = new SqlCommand(query, con);
         con.Open();

@@ -3,7 +3,7 @@ using Sql.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 var dbPopulate = new PopulateTable();
-// dbPopulate.CreateData(); //todo enable this if u want to create the DB code wise, it might not work
+ dbPopulate.CreateData(); //todo enable this if u want to create the DB code wise, it might not work
 
 
 // Add services to the container.
