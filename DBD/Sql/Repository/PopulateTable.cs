@@ -9,16 +9,7 @@ public class PopulateTable
     {
         SqlConnection con = Connector.ConnectionStart();
         
-        string query = "CREATE DATABASE SqlProject ON PRIMARY " +
-                        "(NAME = SqlProject_Data, " +
-                        "FILENAME = 'C:\\DatabaseTest\\SqlProject.mdf', " +
-                        "SIZE = 2MB, MAXSIZE = 10MB, FILEGROWTH = 10%)" +
-                        "LOG ON (NAME = SqlProject_Log, " +
-                        "FILENAME = 'C:\\DatabaseTest\\SqlProject.ldf', " +
-                        "SIZE = 1MB, " +
-                        "MAXSIZE = 5MB, " +
-                        "FILEGROWTH = 10%)"+
-                        "DROP TABLE IF EXISTS enrollments;"+
+        string query = "DROP TABLE IF EXISTS enrollments;"+
                         "DROP TABLE IF EXISTS classes;"+
                         "DROP TABLE IF EXISTS students;"+
                         "CREATE TABLE Students (id INT IDENTITY(1,1) PRIMARY KEY,firstName VARCHAR(50),lastName VARCHAR(50));"+
