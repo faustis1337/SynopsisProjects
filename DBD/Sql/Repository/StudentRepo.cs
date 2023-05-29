@@ -31,20 +31,20 @@ public class StudentRepo : IStudentRepo
         return studentsList;
     }
 
-    public void AddStudents(StudentCreateDto studentsCreate)
+    public void AddStudents(StudentCreateDto create)
     {
         SqlConnection con = Connector.GetConnection();
-        String query = "INSERT INTO Students (firstName, lastName) VALUES ('"+studentsCreate.FirstName+"','"+studentsCreate.LastName+"')";
+        String query = "INSERT INTO Students (firstName, lastName) VALUES ('"+create.FirstName+"','"+create.LastName+"')";
         SqlCommand command = new SqlCommand(query, con);
         con.Open();
         command.ExecuteNonQuery();
         con.Close();
     }
     
-    public void EditStudents(int id, StudentUpdateDto studentsUpdate)
+    public void EditStudents(int id, StudentUpdateDto update)
     {
         SqlConnection con = Connector.GetConnection();
-        String query = "UPDATE Students SET firstName = '"+studentsUpdate.FirstName+"', lastName = '"+studentsUpdate.LastName+"' Where id = '"+id+"'";
+        String query = "UPDATE Students SET firstName = '"+update.FirstName+"', lastName = '"+update.LastName+"' Where id = '"+id+"'";
         SqlCommand command = new SqlCommand(query, con);
         con.Open();
         command.ExecuteNonQuery();

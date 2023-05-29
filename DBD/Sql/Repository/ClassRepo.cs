@@ -32,20 +32,20 @@ public class ClassRepo : IClassRepo
         return classesList;
     }
 
-    public void AddClasses(ClassCreateDto classCreate)
+    public void AddClasses(ClassCreateDto create)
     {
         SqlConnection con = Connector.GetConnection();
-        String query = "INSERT INTO Classes (className, classInfo) VALUES ('"+classCreate.ClassName+"','"+classCreate.ClassInfo+"')";
+        String query = "INSERT INTO Classes (className, classInfo) VALUES ('"+create.ClassName+"','"+create.ClassInfo+"')";
         SqlCommand command = new SqlCommand(query, con);
         con.Open();
         command.ExecuteNonQuery();
         con.Close();
     }
 
-    public void EditClasses(int id, ClassUpdateDto studentsUpdate)
+    public void EditClasses(int id, ClassUpdateDto update)
     {
         SqlConnection con = Connector.GetConnection();
-        String query = "UPDATE Classes SET className = '"+studentsUpdate.ClassName+"', classInfo = '"+studentsUpdate.ClassInfo+"' Where id = '"+id+"'";
+        String query = "UPDATE Classes SET className = '"+update.ClassName+"', classInfo = '"+update.ClassInfo+"' Where id = '"+id+"'";
         SqlCommand command = new SqlCommand(query, con);
         con.Open();
         command.ExecuteNonQuery();

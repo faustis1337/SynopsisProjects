@@ -32,20 +32,20 @@ public class EnrollmentRepo : IEnrollmentRepo
         return enrollmentsList;
     }
     
-    public void AddStudentToClass(EnrollmentCreateDto enrollmentsCreate)
+    public void AddStudentToClass(EnrollmentCreateDto create)
     {
         SqlConnection con = Connector.GetConnection();
-        String query = "INSERT INTO Enrollments (className, classInfo) VALUES ('"+enrollmentsCreate.StudentId+"','"+enrollmentsCreate.ClassId+"')";
+        String query = "INSERT INTO Enrollments (className, classInfo) VALUES ('"+create.StudentId+"','"+create.ClassId+"')";
         SqlCommand command = new SqlCommand(query, con);
         con.Open();
         command.ExecuteNonQuery();
         con.Close();        
     }
     
-    public void EditEnrollments(int id, EnrollmentUpdateDto studentsUpdate)
+    public void EditEnrollments(int id, EnrollmentUpdateDto update)
     {
         SqlConnection con = Connector.GetConnection();
-        String query = "UPDATE Enrollments SET student_id = '"+studentsUpdate.StudentId+"', class_id = '"+studentsUpdate.ClassId+"' Where id = '"+id+"'";
+        String query = "UPDATE Enrollments SET student_id = '"+update.StudentId+"', class_id = '"+update.ClassId+"' Where id = '"+id+"'";
         SqlCommand command = new SqlCommand(query, con);
         con.Open();
         command.ExecuteNonQuery();
