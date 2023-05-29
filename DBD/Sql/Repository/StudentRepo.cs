@@ -6,10 +6,8 @@ using Sql.Models;
 
 namespace Sql.Repository;
 
-public class SqlRepo : ISqlRepo
+public class StudentRepo : IStudentRepo
 {
-    private string conString = "Data Source = .;Initial Catalog = SqlProject ; Integrated Security = true";
-
     public  List<Students> GetAllStudents()
     {
         SqlConnection con =  Connector.GetConnection();
@@ -30,32 +28,7 @@ public class SqlRepo : ISqlRepo
                 studentsList.Add(student);
             }
         }
-
         return studentsList;
-    }
-
-    public List<Classes> GetAllClasses()
-    {
-        SqlConnection con = Connector.GetConnection();
-        SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT * FROM Classes", con);
-        DataTable dataTable = new DataTable();
-        dataAdapter.Fill(dataTable);
-        
-        List<Classes> classesList =  new List<Classes>();
-        
-        if (dataTable.Rows.Count > 0)
-        {
-            for (int i = 0; i < dataTable.Rows.Count ; i++)
-            {
-                Classes classes =  new Classes();
-                classes.ClassId = Convert.ToInt32(dataTable.Rows[i]["id"]);
-                classes.ClassName = Convert.ToString(dataTable.Rows[i]["className"]);
-                classes.ClassInfo = Convert.ToString(dataTable.Rows[i]["classInfo"]);
-                classesList.Add(classes);
-            }
-        }
-
-        return classesList;
     }
 
     public void AddStudents(StudentCreateDto studentsCreate)
@@ -67,23 +40,23 @@ public class SqlRepo : ISqlRepo
         command.ExecuteNonQuery();
         con.Close();
     }
-
-    public void AddClasses(ClassCreateDto classCreate)
+    
+    public void EditStudents(int id, StudentUpdateDto studentsUpdate)
     {
         SqlConnection con = Connector.GetConnection();
-        String query = "INSERT INTO Classes (className, classInfo) VALUES ('"+classCreate.ClassName+"','"+classCreate.ClassInfo+"')";
+        String query = "UPDATE Students SET firstName = '"+studentsUpdate.FirstName+"', lastName = '"+studentsUpdate.LastName+"' Where id = '"+id+"'";
         SqlCommand command = new SqlCommand(query, con);
         con.Open();
         command.ExecuteNonQuery();
-        con.Close();    }
-
-    public void AddStudentToClass(EnrollmentCreateDto enrollmentsCreate)
+        con.Close();
+    }
+    
+    public void Delete(int studentId)
     {
         SqlConnection con = Connector.GetConnection();
-        String query = "INSERT INTO Classes (className, classInfo) VALUES ('"+enrollmentsCreate.StudentId+"','"+enrollmentsCreate.ClassId+"')";
-        SqlCommand command = new SqlCommand(query, con);
+        SqlCommand command = new SqlCommand("DELETE FROM Students WHERE id = '"+studentId+"'", con);
         con.Open();
         command.ExecuteNonQuery();
-        con.Close();        
+        con.Close();
     }
 }

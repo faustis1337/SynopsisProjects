@@ -12,3 +12,8 @@ public class StudentCreateDto
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
 }
+public class StudentUpdateDto
+{
+    public string? FirstName { get; set; }
+    public string? LastName { get; set; }
+}
