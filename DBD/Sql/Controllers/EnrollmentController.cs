@@ -4,6 +4,8 @@ using Sql.Models;
 
 namespace Sql.Controllers;
 
+[ApiController]
+[Route("api/[controller]")]
 public class EnrollmentController : ControllerBase
 {
     private readonly IEnrollmentRepo _enrollmentRepo;
