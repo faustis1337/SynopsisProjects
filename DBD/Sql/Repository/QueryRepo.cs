@@ -108,15 +108,13 @@ public class QueryRepo : IQueryRepo
 
         List<ClassesStudent> classesList =  new List<ClassesStudent>();
         
-        
         if (dataTable.Rows.Count > 0)
         {
-            for (int i = 0; i < dataTable.Rows.Count ; i++)
-            {
-                ClassesStudent student =  new ClassesStudent();
-                student.ClassId = Convert.ToInt32(dataTable.Rows[i]["classId"]);
-                student.ClassName = Convert.ToString(dataTable.Rows[i]["className"]);
-                student.ClassInfo = Convert.ToString(dataTable.Rows[i]["classInfo"]);
+            ClassesStudent student =  new ClassesStudent();
+                student.ClassId = Convert.ToInt32(dataTable.Rows[0]["classId"]);
+                student.ClassName = Convert.ToString(dataTable.Rows[0]["className"]);
+                student.ClassInfo = Convert.ToString(dataTable.Rows[0]["classInfo"]);
+                
                 for (int y = 0; y < dataTable.Rows.Count; y++)
                 {
                     Students studentsInClass = new Students();
@@ -127,7 +125,6 @@ public class QueryRepo : IQueryRepo
                 }
                 classesList.Add(student);
             }
-        }
         return classesList;
     }
 
