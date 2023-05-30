@@ -22,7 +22,7 @@ public class StudentRepo : IStudentRepo
             for (int i = 0; i < dataTable.Rows.Count ; i++)
             {
                 Students student =  new Students();
-                student.StudentId = Convert.ToInt32(dataTable.Rows[i]["id"]);
+                student.StudentId = Convert.ToInt32(dataTable.Rows[i]["studentId"]);
                 student.FirstName = Convert.ToString(dataTable.Rows[i]["firstName"]);
                 student.LastName = Convert.ToString(dataTable.Rows[i]["lastName"]);
                 studentsList.Add(student);
@@ -44,7 +44,7 @@ public class StudentRepo : IStudentRepo
     public void EditStudents(int id, StudentUpdateDto update)
     {
         SqlConnection con = Connector.GetConnection();
-        String query = "UPDATE Students SET firstName = '"+update.FirstName+"', lastName = '"+update.LastName+"' Where id = '"+id+"'";
+        String query = "UPDATE Students SET firstName = '"+update.FirstName+"', lastName = '"+update.LastName+"' Where studentId = '"+id+"'";
         SqlCommand command = new SqlCommand(query, con);
         con.Open();
         command.ExecuteNonQuery();
@@ -54,7 +54,7 @@ public class StudentRepo : IStudentRepo
     public void Delete(int studentId)
     {
         SqlConnection con = Connector.GetConnection();
-        SqlCommand command = new SqlCommand("DELETE FROM Students WHERE id = '"+studentId+"'", con);
+        SqlCommand command = new SqlCommand("DELETE FROM Students WHERE studentId = '"+studentId+"'", con);
         con.Open();
         command.ExecuteNonQuery();
         con.Close();

@@ -22,7 +22,7 @@ public class ClassRepo : IClassRepo
             for (int i = 0; i < dataTable.Rows.Count ; i++)
             {
                 Classes classes =  new Classes();
-                classes.ClassId = Convert.ToInt32(dataTable.Rows[i]["id"]);
+                classes.ClassId = Convert.ToInt32(dataTable.Rows[i]["classId"]);
                 classes.ClassName = Convert.ToString(dataTable.Rows[i]["className"]);
                 classes.ClassInfo = Convert.ToString(dataTable.Rows[i]["classInfo"]);
                 classesList.Add(classes);
@@ -45,7 +45,7 @@ public class ClassRepo : IClassRepo
     public void EditClasses(int id, ClassUpdateDto update)
     {
         SqlConnection con = Connector.GetConnection();
-        String query = "UPDATE Classes SET className = '"+update.ClassName+"', classInfo = '"+update.ClassInfo+"' Where id = '"+id+"'";
+        String query = "UPDATE Classes SET className = '"+update.ClassName+"', classInfo = '"+update.ClassInfo+"' Where classId = '"+id+"'";
         SqlCommand command = new SqlCommand(query, con);
         con.Open();
         command.ExecuteNonQuery();
@@ -54,7 +54,7 @@ public class ClassRepo : IClassRepo
     public void Delete(int classId)
     {
         SqlConnection con = Connector.GetConnection();
-        SqlCommand command = new SqlCommand("DELETE FROM Classes WHERE id = '"+classId+"'", con);
+        SqlCommand command = new SqlCommand("DELETE FROM Classes WHERE classId = '"+classId+"'", con);
         con.Open();
         command.ExecuteNonQuery();
         con.Close();

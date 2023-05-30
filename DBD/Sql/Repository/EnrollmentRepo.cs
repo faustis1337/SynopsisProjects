@@ -23,7 +23,7 @@ public class EnrollmentRepo : IEnrollmentRepo
             for (int i = 0; i < dataTable.Rows.Count ; i++)
             {
                 Enrollments enrolls =  new Enrollments();
-                enrolls.EnrollmentId = Convert.ToInt32(dataTable.Rows[i]["id"]);
+                enrolls.EnrollmentId = Convert.ToInt32(dataTable.Rows[i]["enrollmentId"]);
                 enrolls.StudentId = Convert.ToInt32(dataTable.Rows[i]["student_Id"]);
                 enrolls.ClassId = Convert.ToInt32(dataTable.Rows[i]["class_Id"]);
                 enrollmentsList.Add(enrolls);
@@ -45,7 +45,7 @@ public class EnrollmentRepo : IEnrollmentRepo
     public void EditEnrollments(int id, EnrollmentUpdateDto update)
     {
         SqlConnection con = Connector.GetConnection();
-        String query = "UPDATE Enrollments SET student_id = '"+update.StudentId+"', class_id = '"+update.ClassId+"' Where id = '"+id+"'";
+        String query = "UPDATE Enrollments SET student_id = '"+update.StudentId+"', class_id = '"+update.ClassId+"' Where enrollmentId = '"+id+"'";
         SqlCommand command = new SqlCommand(query, con);
         con.Open();
         command.ExecuteNonQuery();
@@ -55,7 +55,7 @@ public class EnrollmentRepo : IEnrollmentRepo
     public void Delete(int enrollmentId)
     {
         SqlConnection con = Connector.GetConnection();
-        SqlCommand command = new SqlCommand("DELETE FROM Enrollments WHERE id = '"+enrollmentId+"'", con);
+        SqlCommand command = new SqlCommand("DELETE FROM Enrollments WHERE enrollmentId = '"+enrollmentId+"'", con);
         con.Open();
         command.ExecuteNonQuery();
         con.Close();
