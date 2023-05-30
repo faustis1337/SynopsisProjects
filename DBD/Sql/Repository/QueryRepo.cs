@@ -75,26 +75,23 @@ public class QueryRepo : IQueryRepo
 
         List<StudentsClasses> studentsList =  new List<StudentsClasses>();
         
-        
         if (dataTable.Rows.Count > 0)
         {
-            for (int i = 0; i < dataTable.Rows.Count ; i++)
-            {
-                StudentsClasses student =  new StudentsClasses();
-                student.StudentId = Convert.ToInt32(dataTable.Rows[i]["studentId"]);
-                student.FirstName = Convert.ToString(dataTable.Rows[i]["firstName"]);
-                student.LastName = Convert.ToString(dataTable.Rows[i]["lastName"]);
-                for (int y = 0; y < dataTable.Rows.Count; y++)
+            StudentsClasses student =  new StudentsClasses();
+                student.StudentId = Convert.ToInt32(dataTable.Rows[0]["studentId"]);
+                student.FirstName = Convert.ToString(dataTable.Rows[0]["firstName"]);
+                student.LastName = Convert.ToString(dataTable.Rows[0]["lastName"]);
+                
+                foreach (DataRow row in dataTable.Rows)
                 {
                     Classes classStudentHas = new Classes();
-                    classStudentHas.ClassId = Convert.ToInt32(dataTable.Rows[y]["classId"]);
-                    classStudentHas.ClassName = Convert.ToString(dataTable.Rows[y]["className"]);
-                    classStudentHas.ClassInfo = Convert.ToString(dataTable.Rows[y]["classInfo"]);
+                    classStudentHas.ClassId = Convert.ToInt32(row["classId"]);
+                    classStudentHas.ClassName = Convert.ToString(row["className"]);
+                    classStudentHas.ClassInfo = Convert.ToString(row["classInfo"]);
                     student.ClassesList.Add(classStudentHas);
                 }
                 studentsList.Add(student);
             }
-        }
         return studentsList;
     }
 
