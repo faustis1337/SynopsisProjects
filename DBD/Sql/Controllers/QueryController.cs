@@ -51,4 +51,10 @@ public class QueryController : ControllerBase
     {
         return _queryRepo.GetAStudentItem(id);
     }
+    
+    [HttpGet("getAllStudentsWithClasses")]
+    public List<StudentsClasses> GetAllStudentsWithClasses()
+    {
+        return _queryRepo.GetAllStudentsWithClasses();
+    }
 }

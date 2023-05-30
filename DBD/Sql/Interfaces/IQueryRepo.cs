@@ -10,4 +10,5 @@ public interface IQueryRepo
 
     List<ClassesStudent> GetStudentsInAClass(int id);
     StudentsClasses GetAStudentItem(int id);
+    List<StudentsClasses> GetAllStudentsWithClasses();
 }

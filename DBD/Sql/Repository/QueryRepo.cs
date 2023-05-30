@@ -162,4 +162,41 @@ public class QueryRepo : IQueryRepo
         con.Close();
         return student;
     }
+
+    public List<StudentsClasses> GetAllStudentsWithClasses()
+    {
+        SqlConnection con = Connector.GetConnection();
+        string query = "SELECT studentId, firstName, lastName, classId, className, classInfo FROM Students s " +
+                       "INNER JOIN Enrollments e ON s.studentId = e.student_id " +
+                       "INNER JOIN Classes c ON c.classId = e.class_id";
+
+        SqlDataAdapter dataAdapter = new SqlDataAdapter(query, con);
+        DataTable dataTable = new DataTable();
+        dataAdapter.Fill(dataTable);
+
+        List<StudentsClasses> studentsList = new List<StudentsClasses>();
+
+        foreach (DataRow row in dataTable.Rows)
+        {
+            int studentId = Convert.ToInt32(row["studentId"]);
+            StudentsClasses student = studentsList.FirstOrDefault(s => s.StudentId == studentId);
+
+            if (student == null)
+            {
+                student = new StudentsClasses();
+                student.StudentId = studentId;
+                student.FirstName = Convert.ToString(row["firstName"]);
+                student.LastName = Convert.ToString(row["lastName"]);
+                studentsList.Add(student);
+            }
+
+            Classes classes = new Classes();
+            classes.ClassId = Convert.ToInt32(row["classId"]);
+            classes.ClassName = Convert.ToString(row["className"]);
+            classes.ClassInfo = Convert.ToString(row["classInfo"]);
+            student.ClassesList.Add(classes);
+        }
+
+        return studentsList;
+    }
 }
