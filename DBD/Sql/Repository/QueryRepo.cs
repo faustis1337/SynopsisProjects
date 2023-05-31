@@ -181,24 +181,23 @@ public class QueryRepo : IQueryRepo
         foreach (DataRow row in dataTable.Rows)
         {
             int classId = Convert.ToInt32(row["classId"]);
-            ClassesStudent student = classesList.FirstOrDefault(s => s.ClassId == classId);
+            ClassesStudent classes = classesList.FirstOrDefault(s => s.ClassId == classId);
 
-            if (student == null)
+            if (classes == null)
             {
-                student = new ClassesStudent();
-                student.ClassId = classId;
-                student.ClassName = Convert.ToString(row["className"]);
-                student.ClassInfo = Convert.ToString(row["classInfo"]);
-                classesList.Add(student);
+                classes = new ClassesStudent();
+                classes.ClassId = classId;
+                classes.ClassName = Convert.ToString(row["className"]);
+                classes.ClassInfo = Convert.ToString(row["classInfo"]);
+                classesList.Add(classes);
             }
 
             Students students = new Students();
             students.StudentId = Convert.ToInt32(row["studentId"]);
             students.FirstName = Convert.ToString(row["firstName"]);
             students.LastName = Convert.ToString(row["lastName"]);
-            student.StudentsList.Add(students);
+            classes.StudentsList.Add(students);
         }
-
         return classesList;
     }
 }
