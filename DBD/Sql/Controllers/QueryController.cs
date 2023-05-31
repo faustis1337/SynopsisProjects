@@ -17,7 +17,7 @@ public class QueryController : ControllerBase
         _queryRepo = queryRepo;
     }
     
-    [HttpGet("studentsInAClass")] //This gets all the students in a specific class
+    [HttpGet("studentsInAClass")] //this gets all the students in a specific class
     
     public List<Students> GetStudentsInClass(int id)
     {
@@ -30,31 +30,30 @@ public class QueryController : ControllerBase
         return _queryRepo.GetClassesAStudentDoes(id);
     }
 
-    
-    [HttpGet("getClassesAStudentTakes")] //this gets a student list with the classes the student takes
+    [HttpGet("getClassesAStudentTakes")] //this gets a student item with the classes they take under them as a list
     
     public List<StudentsClasses> GetClassesAStudentTakes(int id)
     {
         return _queryRepo.GetClassesAStudentTakes(id);
     }
     
-    [HttpGet("getStudentsInAClass")] //this gets a classes list with which students are in it
-    
+    [HttpGet("getStudentsInAClass")] //this gets a class item with the students that take that class
+
     public List<ClassesStudent> GetStudentsInAClass(int id)
     {
         return _queryRepo.GetStudentsInAClass(id);
     }
-        
-    [HttpGet("getAStudentItem")] //this gets a student item with the classes they take under them as a list
-    
-    public StudentsClasses GetAStudentItem(int id)
-    {
-        return _queryRepo.GetAStudentItem(id);
-    }
-    
-    [HttpGet("getAllStudentsWithClasses")]
+
+    [HttpGet("getAllStudentsWithClasses")] //this gets a student list with the classes the student takes
     public List<StudentsClasses> GetAllStudentsWithClasses()
     {
         return _queryRepo.GetAllStudentsWithClasses();
+    }
+    
+    [HttpGet("getAllClassesWithStudents")] //this gets a classes list with which students are in it
+    
+    public List<ClassesStudent> GetAllClassesWithStudents()
+    {
+        return _queryRepo.GetAllClassesWithStudents();
     }
 }

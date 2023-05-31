@@ -8,7 +8,7 @@ namespace Sql.Repository;
 
 public class QueryRepo : IQueryRepo
 {
-    public List<Students> GetStudentsInClass(int classId) //This gets all the students in a specific class
+    public List<Students> GetStudentsInClass(int classId) //this gets all the students in a specific class
     {
         SqlConnection con =  Connector.GetConnection();
         string query = "SELECT studentId,firstName, lastName FROM Students s " +
@@ -62,7 +62,7 @@ public class QueryRepo : IQueryRepo
         return classesList;
     }
     
-    public List<StudentsClasses> GetClassesAStudentTakes(int studentId) //this gets a student list with the classes the student takes
+    public List<StudentsClasses> GetClassesAStudentTakes(int studentId) //this gets a student item with the classes they take under them as a list
     {
         SqlConnection con =  Connector.GetConnection();
         string query = "SELECT studentId, firstName, lastName, classId, className, classInfo FROM Students s " +
@@ -91,11 +91,11 @@ public class QueryRepo : IQueryRepo
                     student.ClassesList.Add(classStudentHas);
                 }
                 studentsList.Add(student);
-            }
+        }
         return studentsList;
     }
 
-    public List<ClassesStudent> GetStudentsInAClass(int classId) //this gets a classes list with which students are in it
+    public List<ClassesStudent> GetStudentsInAClass(int classId) //this gets a class item with the students that take that class
     {
         SqlConnection con =  Connector.GetConnection();
         string query = "SELECT studentId, firstName, lastName, classId, className, classInfo FROM Students s " +
@@ -128,47 +128,12 @@ public class QueryRepo : IQueryRepo
         return classesList;
     }
 
-    public StudentsClasses GetAStudentItem(int studentId) //this gets a student item with the classes they take under them as a list
+    public List<StudentsClasses> GetAllStudentsWithClasses() //this gets a student list with the classes the student takes
     {
         SqlConnection con = Connector.GetConnection();
         string query = "SELECT studentId, firstName, lastName, classId, className, classInfo FROM Students s " +
-                        "INNER JOIN Enrollments e on s.studentId = e.student_id " +
-                        "RIGHT JOIN Classes c on c.classId = e.class_id " +
-                        "WHERE e.student_Id = '"+studentId+"'";
-        SqlDataAdapter dataAdapter = new SqlDataAdapter(query, con);
-        SqlCommand command = new SqlCommand(query, con);
-        DataTable dataTable = new DataTable();
-        dataAdapter.Fill(dataTable);
-        con.Open();
-        var reader = command.ExecuteReader();
-        
-        StudentsClasses student =  new StudentsClasses();
-    
-        if(reader.HasRows)
-            while (reader.Read())
-            {
-                student.StudentId = (int)reader["studentId"];
-                student.FirstName = (string)reader["firstName"];
-                student.LastName = (string)reader["lastName"];
-                for (int y = 0; y < dataTable.Rows.Count; y++)
-                {
-                    Classes classStudentHas = new Classes();
-                    classStudentHas.ClassId = Convert.ToInt32(dataTable.Rows[y]["classId"]);
-                    classStudentHas.ClassName = Convert.ToString(dataTable.Rows[y]["className"]);
-                    classStudentHas.ClassInfo = Convert.ToString(dataTable.Rows[y]["classInfo"]);
-                    student.ClassesList.Add(classStudentHas);
-                }
-            }
-        con.Close();
-        return student;
-    }
-
-    public List<StudentsClasses> GetAllStudentsWithClasses()
-    {
-        SqlConnection con = Connector.GetConnection();
-        string query = "SELECT studentId, firstName, lastName, classId, className, classInfo FROM Students s " +
-                       "INNER JOIN Enrollments e ON s.studentId = e.student_id " +
-                       "INNER JOIN Classes c ON c.classId = e.class_id";
+                        "INNER JOIN Enrollments e ON s.studentId = e.student_id " +
+                        "INNER JOIN Classes c ON c.classId = e.class_id";
 
         SqlDataAdapter dataAdapter = new SqlDataAdapter(query, con);
         DataTable dataTable = new DataTable();
@@ -198,5 +163,42 @@ public class QueryRepo : IQueryRepo
         }
 
         return studentsList;
+    }
+
+    public List<ClassesStudent> GetAllClassesWithStudents() //this gets a classes list with which students are in it
+    {
+        SqlConnection con = Connector.GetConnection();
+        string query = "SELECT studentId, firstName, lastName, classId, className, classInfo FROM Classes c " +
+                        "INNER JOIN Enrollments e ON c.classId = e.class_id " +
+                        "INNER JOIN Students s ON s.studentId = e.student_id";
+
+        SqlDataAdapter dataAdapter = new SqlDataAdapter(query, con);
+        DataTable dataTable = new DataTable();
+        dataAdapter.Fill(dataTable);
+
+        List<ClassesStudent> classesList = new List<ClassesStudent>();
+
+        foreach (DataRow row in dataTable.Rows)
+        {
+            int classId = Convert.ToInt32(row["classId"]);
+            ClassesStudent student = classesList.FirstOrDefault(s => s.ClassId == classId);
+
+            if (student == null)
+            {
+                student = new ClassesStudent();
+                student.ClassId = classId;
+                student.ClassName = Convert.ToString(row["className"]);
+                student.ClassInfo = Convert.ToString(row["classInfo"]);
+                classesList.Add(student);
+            }
+
+            Students students = new Students();
+            students.StudentId = Convert.ToInt32(row["studentId"]);
+            students.FirstName = Convert.ToString(row["firstName"]);
+            students.LastName = Convert.ToString(row["lastName"]);
+            student.StudentsList.Add(students);
+        }
+
+        return classesList;
     }
 }
