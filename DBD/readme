@@ -1,0 +1,5 @@
+This project, when the SQL folder is run, can automatically create the database, we suggest you let it do so.
+
+If you dont want to automatically create the database, there is a file called manually create SQL DB. 
+Before you run it, you will need to create a Database named "SqlProject" in your localhost version of SQL SERVER.
+This is so that our connector, under the Connection Directory in SQL project can connect to the database.
