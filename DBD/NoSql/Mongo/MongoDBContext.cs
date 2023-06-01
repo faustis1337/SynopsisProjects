@@ -1,5 +1,4 @@
 ﻿using MongoDB.Driver;
-using NoSql.Entities;
 using NoSql.Entities.Entities;
 
 public class MongoDBContext

@@ -16,14 +16,21 @@ public class ClassesRepo : IClassesRepo
         _mapper = mapper;
     }
     
-    public ClassEntity AddClass(CreateClassDto createClassDto)
+    public bool AddClass(CreateClassDto createClassDto)
     {
         var classEntity = _mapper.Map<ClassEntity>(createClassDto);
         
         classEntity.Students = new List<string>().ToArray();
         
-        _mongoDbContext.ClassessCollection.InsertOne(classEntity);
-        return classEntity;
+        try
+        {
+            _mongoDbContext.ClassessCollection.InsertOne(classEntity);
+            return true;
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
     }
 
     public List<ClassEntity> GetAllClasses()

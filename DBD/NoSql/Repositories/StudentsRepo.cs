@@ -18,14 +18,20 @@ public class StudentsRepo : IStudentsRepo
         _mapper = mapper;
     }
     
-    public StudentEntity AddStudent(CreateStudentDto createStudentDto)
+    public bool AddStudent(CreateStudentDto createStudentDto)
     {
         var studentEntity = _mapper.Map<StudentEntity>(createStudentDto);
         
         studentEntity.Classes = new List<string>().ToArray();
-        
-        _mongoDbContext.StudentsCollection.InsertOne(studentEntity);
-        return studentEntity;
+        try
+        {
+            _mongoDbContext.StudentsCollection.InsertOne(studentEntity);
+            return true;
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
     }
     
     public UpdateResult UpdateStudent(UpdateStudentDto updateStudentDto)

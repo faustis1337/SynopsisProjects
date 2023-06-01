@@ -6,7 +6,7 @@ namespace NoSql.Repositories;
 
 public interface IClassesRepo
 {
-    public ClassEntity AddClass(CreateClassDto createClassDto);
+    public bool AddClass(CreateClassDto createClassDto);
     public List<ClassEntity> GetAllClasses();
     public DeleteResult DeleteClass(String id);
     public UpdateResult UpdateClass(UpdateClassDto updateClassDto);
