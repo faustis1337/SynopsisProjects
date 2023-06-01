@@ -79,7 +79,7 @@ public class ClassesRepo : IClassesRepo
         return _mongoDbContext.ClassessCollection.UpdateOne(filter, update);
     }
     
-    public Boolean AddStudentToClass(AddStudentToClassDto addStudentToClassDto)
+    public bool AddStudentToClass(AddStudentToClassDto addStudentToClassDto)
     {
         var classFilter = Builders<ClassEntity>.Filter.Where(entity => entity.Id.ToString() == addStudentToClassDto.ClassId);
         var classUpdate = Builders<ClassEntity>.Update.Push("Students", addStudentToClassDto.StudentId);
