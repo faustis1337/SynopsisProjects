@@ -18,9 +18,16 @@ public class ClassesController : ControllerBase
     }
 
     [HttpPost("classesCreate")]
-    public ClassEntity CreateClass(CreateClassDto createClassDto)
+    public IActionResult CreateClass(CreateClassDto createClassDto)
     {
-        return _classesRepo.AddClass(createClassDto);
+        var isCreated = _classesRepo.AddClass(createClassDto);
+        
+        if (!isCreated)
+        {
+            return StatusCode(500, "Failed to create a class");
+        }
+        
+        return Ok("Class created");
     }
     
     [HttpGet("classesGet")]
@@ -41,14 +48,14 @@ public class ClassesController : ControllerBase
     }
 
     [HttpPut("classesUpdate")]
-    public IActionResult CreateStudent(UpdateClassDto updateClassDto)
+    public IActionResult UpdateClass(UpdateClassDto updateClassDto)
     {
         var updateResult = _classesRepo.UpdateClass(updateClassDto);
         if (updateResult.ModifiedCount > 0)
         {
-            return Ok("Student updated");
+            return Ok("Class updated");
         }
-        return NotFound("Student not found or could not be updated");
+        return NotFound("Class not found or could not be updated");
     }
     
     [HttpPost("classesAddStudent")]
@@ -59,6 +66,6 @@ public class ClassesController : ControllerBase
         {
             return Ok("Student added to class");
         }
-        return NotFound("Student not found or could not be added to class");
+        return NotFound("Class not found or could not be added to class");
     }
 }

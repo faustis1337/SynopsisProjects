@@ -21,10 +21,18 @@ public class StudentsController : ControllerBase
     }
 
     [HttpPost("studentsCreate")]
-    public StudentEntity AddStudent(CreateStudentDto createStudentDto)
+    public IActionResult AddStudent(CreateStudentDto createStudentDto)
     {
-        return _studentsRepo.AddStudent(createStudentDto);
-    }
+
+        var isCreated = _studentsRepo.AddStudent(createStudentDto);
+
+        if (!isCreated)
+        {
+            return StatusCode(500, "Failed to create a student");
+        }
+        
+        return Ok("Student created");
+        }
     
     [HttpGet("studentsGet")]
     public List<StudentEntity> GetAllStudents()
