@@ -10,5 +10,5 @@ public interface IClassesRepo
     public List<ClassEntity> GetAllClasses();
     public DeleteResult DeleteClass(String id);
     public UpdateResult UpdateClass(UpdateClassDto updateClassDto);
-    public Boolean AddStudentToClass(AddStudentToClassDto addStudentToClassDto);
+    public bool AddStudentToClass(AddStudentToClassDto addStudentToClassDto);
 }
