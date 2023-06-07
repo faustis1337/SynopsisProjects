@@ -26,7 +26,7 @@ public class PopulateTable
                         "DROP TABLE IF EXISTS students;" +
                         "CREATE TABLE Students (studentId INT IDENTITY(1,1) PRIMARY KEY,firstName VARCHAR(50),lastName VARCHAR(50));" +
                         "CREATE TABLE Classes (classId INT IDENTITY(1,1) PRIMARY KEY, className VARCHAR(50), classInfo NVARCHAR(100));" +
-                        "CREATE TABLE Enrollments (enrollmentId INT IDENTITY(1,1) PRIMARY KEY, student_id INT,class_id INT, FOREIGN KEY (student_id) REFERENCES Students (studentId),FOREIGN KEY (class_id) REFERENCES Classes (classId));" +
+                        "CREATE TABLE Enrollments (enrollmentId INT IDENTITY(1,1) PRIMARY KEY, student_id INT,class_id INT, FOREIGN KEY (student_id) REFERENCES Students (studentId) ON DELETE CASCADE,FOREIGN KEY (class_id) REFERENCES Classes (classId) ON DELETE CASCADE);" +
 
                         "INSERT INTO Students (firstName, lastName) VALUES ('Mike','Wazosky'),('Amanda','Daniel')," +
                         "('Johnny','Carey'),('Leone','Charlie'),('Juliet','Roberts')" +
