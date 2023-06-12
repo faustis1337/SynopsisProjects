@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: laszlo199/search-engine-frontend:latest
+          image: faustis1337/search-engine-frontend:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 80
